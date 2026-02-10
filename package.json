@@ -1,8 +1,8 @@
 {
-  "name": "mmr-one",
+  "name": "mmrone",
   "homepage": "https://kdghouli.github.io/mmrone/",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d distfirebase login"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

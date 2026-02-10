@@ -4,6 +4,16 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/mmrone/",
   plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://mmr-2024.atwebpages.com",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+
 });
+
