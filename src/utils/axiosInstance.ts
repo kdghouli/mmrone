@@ -1,10 +1,11 @@
 // utils/axiosInstance.ts
 import axios from "axios";
 import { useAuthStore } from "../stores/useAuthStore";
+import { API_BASE_URL } from "./donnee";
 
 // Configuration de base d'Axios
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api", // Changez selon votre configuration
+  baseURL: API_BASE_URL, // Changez selon votre configuration
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

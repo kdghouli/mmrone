@@ -13,7 +13,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { FaBellConcierge } from "react-icons/fa6";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import UserAvatar from "../components/Auth/UserAvatar";
 
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       id: "dashboard",
       label: "Dashboard",
       icon: <FaTachometerAlt />,
-      path: "/home",
+      
     },
     {
       id: "vehicules",
@@ -117,11 +117,11 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       {/* Menu Items */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item) => (
-          <Link
+          <NavLink
             key={item.id}
             to={item.path}
             className={`
-              flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300
+              flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-300
               ${
                 isActive(item.path)
                   ? "bg-linear-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
@@ -131,7 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           >
             <div className="text-lg">{item.icon}</div>
             {!collapsed && <span className="font-medium">{item.label}</span>}
-          </Link>
+          </NavLink>
         ))}
       </nav>
 

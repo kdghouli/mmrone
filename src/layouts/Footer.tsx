@@ -17,7 +17,7 @@ function Footer() {
 
   return (
     <>
-      <footer className="bg-gradient-to-b from-gray-900 to-gray-800 text-white border-t border-gray-700">
+      <footer className="bg-linear-to-b from-gray-900 to-gray-800 text-white border-t border-gray-700">
         {/* Main Footer Content */}
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -205,7 +205,7 @@ function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   S'inscrire
                 </button>
@@ -250,7 +250,7 @@ function Footer() {
         {/* Back to Top Button */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 z-40 flex items-center justify-center"
+          className="fixed bottom-6 right-6 w-12 h-12 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 z-40 flex items-center justify-center"
           aria-label="Retour en haut"
         >
           <svg
