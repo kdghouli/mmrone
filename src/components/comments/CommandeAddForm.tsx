@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useComments } from "../../stores/useCommentsStore";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 const CommandeAddForm = ({
   statuts,
@@ -9,11 +10,12 @@ const CommandeAddForm = ({
   statuts?: { id: string; nom: string }[];
   vhlId: string;
 }) => {
-  const { loading, addComment,sethandAddToggle } = useComments();
+  const { loading, addComment, sethandAddToggle } = useComments();
 
   const [newComment, setNewComment] = useState("");
   const [kilometrage, setKilometrage] = useState("");
   const [isActive, setIsActive] = useState(true);
+  const user = useAuthStore.getState().user;
 
   const [formData, setFormData] = useState<{ statut_id: string }>({
     statut_id: "",
@@ -30,6 +32,7 @@ const CommandeAddForm = ({
       formData.statut_id,
       isActive,
       kilometrage,
+      user?.id,
     );
     setNewComment("");
     setFormData({ statut_id: "" });

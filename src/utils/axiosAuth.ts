@@ -48,7 +48,7 @@ axiosAuth.interceptors.response.use(
 
       try {
         // Utiliser refreshAccessToken au lieu de refreshToken
-        const newToken = await useAuthStore.getState().refreshAccessToken();
+        const newToken = await useAuthStore.getState().token;
 
         if (newToken) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;

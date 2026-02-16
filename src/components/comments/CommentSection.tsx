@@ -209,7 +209,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ vhlId }) => {
           </div>
 
           {/* Comment Content */}
-         
+
           {isEditing ? (
             <div className="mb-3">
               <textarea
@@ -385,9 +385,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ vhlId }) => {
           </div>
         ) : (
           <div>
-            {comments.map((comment) => 
+            {comments.map((comment) => (
               <CommentItem key={comment.id} comment={comment} />
-            )}
+            ))}
           </div>
         )}
       </div>
