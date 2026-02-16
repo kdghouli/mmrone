@@ -79,6 +79,9 @@ const CreateVhlProForm: React.FC<CreateVhlProFormProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
+
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -88,6 +91,8 @@ const CreateVhlProForm: React.FC<CreateVhlProFormProps> = ({
 
     const result = await createVhl(formData as any);
 
+    console.log(`formDataCreateVhlResult :  ${result}`);
+    console.log(`formDataCreateVhl :  ${formData}`);
     if (result) {
       onSuccess(result);
     }

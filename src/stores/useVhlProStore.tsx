@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // stores/useVhlProStore.ts
 import { create } from "zustand";
-import axios from "axios";
 import { toast } from "react-toastify";
 import React from "react";
-import {API_BASE_URL} from "../utils/donnee";
+import axiosAuth from "../utils/axiosAuth";
 
 // Interfaces
 interface Vhl {
@@ -113,7 +112,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
       await get().fetchReferenceData();
 
       // Récupérer tous les véhicules
-      const response = await axios.get(`${API_BASE_URL}vhls`);
+      const response = await axiosAuth.get(`vhls`);
 
       // Récupérer les données de référence du store
       const {
@@ -185,12 +184,12 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
         utilisateursRes,
         statutsRes,
       ] = await Promise.all([
-        axios.get(`${API_BASE_URL}agences`),
-        axios.get(`${API_BASE_URL}categories`),
-        axios.get(`${API_BASE_URL}intitules`),
-        axios.get(`${API_BASE_URL}services`),
-        axios.get(`${API_BASE_URL}utilisateurs`),
-        axios.get(`${API_BASE_URL}statuts`),
+        axiosAuth.get(`agences`),
+        axiosAuth.get(`categories`),
+        axiosAuth.get(`intitules`),
+        axiosAuth.get(`services`),
+        axiosAuth.get(`utilisateurs`),
+        axiosAuth.get(`statuts`),
       ]);
 
       set({
@@ -229,7 +228,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
   fetchVhlById: async (id: string) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}vhls/${id}`);
+      const response = await axiosAuth.get(`vhls/${id}`);
       const vhl: Vhl = {
         id: response.data.id.toString(),
         matricule: response.data.matricule,
@@ -303,7 +302,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
         statut_id: vhlData.statut_id || null,
       };
 
-      const response = await axios.post(`${API_BASE_URL}vhls`, payload);
+      const response = await axiosAuth.post(`vhls`, payload);
       const newVhl: Vhl = {
         id: response.data.id.toString(),
         ...vhlData,
@@ -325,7 +324,6 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
         statut_nom:
           get().statuts.find((s) => s.id === vhlData.statut_id)?.nom || "",
       };
-
       set((state) => ({
         allVhls: [...state.allVhls, newVhl],
         selectedVhl: newVhl,
@@ -368,7 +366,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
       };
       console.log("Payload envoyé:", payload);
 
-      const response = await axios.put(`${API_BASE_URL}vhls/${id}`, payload);
+      const response = await axiosAuth.put(`vhls/${id}`, payload);
       console.log("Réponse mise à jour Vhl:", response.data);
       const updatedVhl: Vhl = {
         ...response.data,
@@ -435,7 +433,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
   deleteVhl: async (id: string) => {
     set({ loading: true, error: null });
     try {
-      await axios.delete(`${API_BASE_URL}vhls/${id}`);
+      await axiosAuth.delete(`vhls/${id}`);
 
       set((state) => ({
         allVhls: state.allVhls.filter((vhl) => vhl.id !== id),
@@ -460,7 +458,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
   softDeleteVhl: async (id: string) => {
     set({ loading: true, error: null });
     try {
-      await axios.delete(`${API_BASE_URL}vhls/${id}/soft`);
+      await axiosAuth.delete(`vhls/${id}`);
 
       set((state) => ({
         allVhls: state.allVhls.filter((vhl) => vhl.id !== id),
@@ -485,7 +483,7 @@ export const useVhlProStore = create<VhlState>()((set, get) => ({
   restoreVhl: async (id: string) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.put(`${API_BASE_URL}vhls/${id}/restore`);
+      const response = await axiosAuth.put(`vhls/${id}/restore`);
       const restoredVhl: Vhl = {
         ...response.data,
         id: response.data.id.toString(),

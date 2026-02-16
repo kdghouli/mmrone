@@ -23,20 +23,21 @@ function Login() {
   const navigate = useNavigate();
   const { login, isLoading, error, clearError } = useAuth();
 
-  const [formData, setFormData] = useState({
+  const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+    
   });
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberU, setRememberU] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setCredentials((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -62,15 +63,15 @@ function Login() {
     };
     let isValid = true;
 
-    if (!formData.email) {
+    if (!credentials.email) {
       newErrors.email = "L'email est requis";
       isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email)) {
       newErrors.email = "Format d'email invalide";
       isValid = false;
     }
 
-    if (!formData.password) {
+    if (!credentials.password) {
       newErrors.password = "Le mot de passe est requis";
       isValid = false;
     }
@@ -87,7 +88,7 @@ function Login() {
     }
 
     try {
-      await login(formData.email, formData.password);
+      await login(credentials.email, credentials.password);
 
       toast.success("🎉 Connexion réussie !", {
         position: "top-right",
@@ -100,13 +101,13 @@ function Login() {
       });
 
       // Sauvegarder les préférences
-      if (rememberMe) {
+      if (rememberU) {
         localStorage.setItem("rememberMe", "true");
       }
 
       // Rediriger vers le tableau de bord
       setTimeout(() => {
-        navigate("/home");
+        navigate("/");
       }, 1000);
     } catch (error: any) {
       // Gérer les erreurs spécifiques de l'API
@@ -126,7 +127,7 @@ function Login() {
   const handleSocialLogin = (provider: string) => {
     toast.info(`Connexion avec ${provider} en cours...`, {
       position: "top-right",
-      autoClose: 2000,
+      autoClose: 3000,
     });
   };
 
@@ -136,7 +137,6 @@ function Login() {
       autoClose: 3000,
     });
   };
-
 
   return (
     <>
@@ -183,7 +183,7 @@ function Login() {
           </div>
 
           {/* Features List */}
-          <div className="relative z-10 space-y-6">
+          <div className="relative z-10 space-y-4">
             {[
               {
                 icon: "🚚",
@@ -323,7 +323,7 @@ function Login() {
                       type="email"
                       id="email"
                       name="email"
-                      value={formData.email}
+                      value={credentials.email}
                       onChange={handleChange}
                       className={`
                         w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200
@@ -379,7 +379,7 @@ function Login() {
                       type={showPassword ? "text" : "password"}
                       id="password"
                       name="password"
-                      value={formData.password}
+                      value={credentials.password}
                       onChange={handleChange}
                       className={`
                         w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200
@@ -423,8 +423,8 @@ function Login() {
                     <input
                       type="checkbox"
                       id="remember"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
+                      checked={rememberU}
+                      onChange={(e) => setRememberU(e.target.checked)}
                       className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
                     <label

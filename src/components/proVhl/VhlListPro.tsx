@@ -463,7 +463,7 @@ const VhlListPro: React.FC<VhlListProProps> = ({
             ))}
           </div>
         ) : (
-          <div className="text-center py-10">
+          <div className="text-center py-4">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
               <FaCar className="text-2xl text-gray-400" />
             </div>
@@ -489,17 +489,14 @@ const VhlListPro: React.FC<VhlListProProps> = ({
 
       {/* Pagination en bas - AMÉLIORÉ */}
       {totalPages > 1 && paginatedVhls.length > 0 && (
-        <div className="p-2 border-t border-gray-200 bg-white ">
+        <div className=" border-t border-gray-200 bg-white h-30 p-2">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div className="text-sm text-gray-700">
-              De {start} à {end} sur {totalItems} véhicules • Page {currentPage}{" "}
-              sur {totalPages}
-            </div>
+            
 
             <div className="flex items-center gap-4">
               {/* Sélection du nombre d'éléments par page */}
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600">Afficher :</span>
+                
                 <select
                   value={itemsPerPage}
                   onChange={(e) =>
@@ -517,7 +514,7 @@ const VhlListPro: React.FC<VhlListProProps> = ({
               </div>
 
               {/* Navigation des pages */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 justify-center">
                 <button
                   onClick={() => handlePageChange(1)}
                   disabled={currentPage === 1 || loading}

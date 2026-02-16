@@ -1,5 +1,5 @@
 // components/layout/Sidebar.tsx
-import React from "react";
+import React, { type JSX } from "react";
 import {
   FaTachometerAlt,
   FaCar,
@@ -25,12 +25,20 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   const location = useLocation();
 
-  const menuItems = [
+  interface MenuItem {
+    id: string;
+    label: string;
+    icon: JSX.Element;
+    path: string;
+  }
+
+  const menuItems: MenuItem[] = [
     {
       id: "dashboard",
       label: "Dashboard",
       icon: <FaTachometerAlt />,
       
+      path: "/*",
     },
     {
       id: "vehicules",
@@ -114,6 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         </div>
       </div>
 
+      {/* Menu Items */}
       {/* Menu Items */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item) => (

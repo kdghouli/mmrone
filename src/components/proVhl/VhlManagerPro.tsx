@@ -31,7 +31,7 @@ const VhlManagerPro = () => {
       await fetchAllVhls();
     };
     loadData();
-  }, []);
+  }, [fetchAllVhls, fetchReferenceData]);
 
   const handleCreateSuccess = (newVhl: any) => {
     setView("details");
@@ -171,7 +171,7 @@ const VhlManagerPro = () => {
                 {view === "create" && (
                   <CreateVhlProForm
                     onSuccess={handleCreateSuccess}
-                    onCancel={handleBackToList}
+                    onCancel={() => setView("create")}
                   />
                 )}
 

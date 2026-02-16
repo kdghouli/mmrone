@@ -38,9 +38,7 @@ function UserProfile({ compact = false, editable = true }: UserProfileProps) {
     confirmPassword: "",
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(
-    user?.image || "",
-  );
+  const [imagePreview, setImagePreview] = useState<string>(user?.image || "");
 
   if (!user) {
     return (
@@ -185,7 +183,7 @@ function UserProfile({ compact = false, editable = true }: UserProfileProps) {
       confirmPassword: "",
     });
     setSelectedImage(null);
-    setImagePreview(user.image_url || "");
+    setImagePreview(user.image || "");
     setErrors({ name: "", email: "", password: "", confirmPassword: "" });
   };
 
@@ -203,9 +201,9 @@ function UserProfile({ compact = false, editable = true }: UserProfileProps) {
     return (
       <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
         <div className="relative">
-          {user.image_url ? (
+          {user.image ? (
             <img
-              src={user.image_url}
+              src={user.image}
               alt={user.name}
               className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
             />
@@ -260,9 +258,9 @@ function UserProfile({ compact = false, editable = true }: UserProfileProps) {
                       alt="Preview"
                       className="w-full h-full object-cover"
                     />
-                  ) : user.image_url ? (
+                  ) : user.image ? (
                     <img
-                      src={user.image_url}
+                      src={user.image}
                       alt={user.name}
                       className="w-full h-full object-cover"
                     />

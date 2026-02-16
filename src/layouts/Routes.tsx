@@ -4,41 +4,84 @@ import Voitures from "../pages/Voitures";
 import Scooters from "../pages/Scooters";
 import Chariots from "../pages/Chariots";
 import Autres from "../pages/Autres";
-import NotFound from "../pages/autres/NotFound";
 import App from "../App";
 import Home from "./Home";
-//import CreateEquip from "../pages/CreateEquip";
 import AgenceManager from "../components/agences/AgenceManager";
 import IntituleManager from "../components/intitules/IntituleManager";
-import Login from "../components/Auth/Login";
-import Register from "../components/Auth/Register";
+import Login from "../components/Auth/UserLogin";
+import Register from "../components/Auth/UserRegister";
 import UtilisateurManager from "../components/utilisateur/UtilisateurManager";
 import VhlManager from "../components/vhls/VhlManager";
 import VhlPro from "../components/proVhl/VhlManagerPro";
 import CommentsManager from "../components/comments/CommentManager";
 import UserProfile from "../components/Auth/UserProfile";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const router = createBrowserRouter([
   {
     element: <App children={undefined} />,
 
     children: [
-      { index: true, element: <Home /> },
-      { path: "/camions", element: <Camions /> },
-      { path: "/voitures", element: <Voitures /> },
-      { path: "/scooters", element: <Scooters /> },
-      { path: "/chariots", element: <Chariots /> },
-      { path: "/autres", element: <Autres /> },
-      { path: "/agences", element: <AgenceManager /> },
-      { path: "/intitules", element: <IntituleManager /> },
-      { path: "/utilisa", element: <UtilisateurManager /> },
-      { path: "/vhls", element: <VhlManager /> },
+      { index: true, element: <Home />, errorElement: <ErrorBoundary /> },
+      {
+        path: "/camions",
+        element: <Camions />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/voitures",
+        element: <Voitures />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/scooters",
+        element: <Scooters />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/chariots",
+        element: <Chariots />,
+        errorElement: <ErrorBoundary />,
+      },
+      { path: "/autres", element: <Autres />, errorElement: <ErrorBoundary /> },
+      {
+        path: "/agences",
+        element: <AgenceManager />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/intitules",
+        element: <IntituleManager />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/utilisa",
+        element: <UtilisateurManager />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/vhls",
+        element: <VhlManager />,
+        errorElement: <ErrorBoundary />,
+      },
       { path: "/pro", element: <VhlPro /> },
-      { path: "/comments", element: <CommentsManager /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/profile", element: <UserProfile /> },
-      { path: "*", element: <NotFound /> },
+      {
+        path: "/comments",
+        element: <CommentsManager />,
+        errorElement: <ErrorBoundary />,
+      },
+      { path: "/login", element: <Login />, errorElement: <ErrorBoundary /> },
+      {
+        path: "/register",
+        element: <Register />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/profile",
+        element: <UserProfile />,
+        errorElement: <ErrorBoundary />,
+      },
+      { path: "*", element: <ErrorBoundary /> },
     ],
   },
 ]);
