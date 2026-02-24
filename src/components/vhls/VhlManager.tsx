@@ -7,7 +7,6 @@ import CreateVhlForm from "./CreateVhlForm";
 import EditVhlForm from "./EditVhlForm";
 import VhlDetails from "./VhlDetails";
 import { FaTachometerAlt, FaList, FaPlus } from "react-icons/fa";
-import RecentComments from "../comments/RecentComments";
 
 const VhlManager = () => {
   const [view, setView] = useState<
@@ -153,11 +152,6 @@ const VhlManager = () => {
             onBack={handleBackToList}
           />
         )}
-      </div>
-      // Ajouter ce composant dans la grille, par exemple dans la section "Main
-      Content"
-      <div className="mt-8">
-        <RecentComments limit={5} />
       </div>
     </div>
   );

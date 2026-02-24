@@ -57,23 +57,6 @@ function Header() {
               >
                 {isMenuOpen ? <FaTimes /> : <FaBars />}
               </button>
-
-              <Link to="/" className="flex items-center space-x-3 group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-linear-to-r from-blue-500 to-purple-600 rounded-full blur opacity-70 group-hover:opacity-100 transition-opacity"></div>
-                  <img
-                    src="/logo.jpg"
-                    alt="Logo"
-                    className="relative w-12 h-12 rounded-full object-cover border-2 border-white/20 shadow-lg"
-                  />
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                    Fleet Manager
-                  </h1>
-                  <p className="text-xs text-gray-400">Gestion de flotte</p>
-                </div>
-              </Link>
             </div>
 
             {/* Navigation Desktop */}
@@ -86,7 +69,7 @@ function Header() {
                     flex items-center space-x-2 px-4 py-2.5 rounded-lg transition-all duration-300
                     ${
                       isActive(item.path)
-                        ? "bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-white border border-blue-500/30 shadow-lg shadow-blue-500/10"
+                        ? "bg-linear-to-r from-blue-600/20 to-purple-600/20 text-white border border-blue-500/30 shadow-lg shadow-blue-500/10"
                         : "text-gray-300 hover:text-white hover:bg-gray-700/50"
                     }
                   `}

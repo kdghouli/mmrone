@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// stores/useVhlProStore.ts
 import { create } from "zustand";
 import { toast } from "react-toastify";
 import React from "react";

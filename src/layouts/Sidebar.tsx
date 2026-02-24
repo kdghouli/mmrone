@@ -12,7 +12,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { FaBellConcierge } from "react-icons/fa6";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 import UserAvatar from "../components/Auth/UserAvatar";
 
@@ -89,15 +89,17 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       <div className="p-5 border-b border-gray-700">
         <div className="flex items-center justify-between">
           {!collapsed && (
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                <FaCar className="text-xl" />
+            <Link to={"/"}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                  <FaCar className="text-xl" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold">FleetPro</h1>
+                  <p className="text-xs text-gray-400">Gestion de flotte</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-xl font-bold">FleetPro</h1>
-                <p className="text-xs text-gray-400">Gestion de flotte</p>
-              </div>
-            </div>
+            </Link>
           )}
           {collapsed && (
             <div className="w-10 h-10 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mx-auto">
