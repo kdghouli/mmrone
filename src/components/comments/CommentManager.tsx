@@ -1,13 +1,15 @@
 // pages/CommentsManager.tsx
 import { useState } from "react";
 import { FaComments, FaSearch, FaFilter } from "react-icons/fa";
+import RecentComments from "./RecentComments";
+import { useComments } from "../../stores/useCommentsStore";
 
 const CommentsManager = () => {
   const [filter, setFilter] = useState("all"); // all, urgent, resolved, etc.
   const [search, setSearch] = useState("");
+  const { comments} = useComments();
 
   // Données simulées - à remplacer par votre store
-
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-100">
@@ -85,15 +87,25 @@ const CommentsManager = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Total commentaires</span>
-                    <span className="font-medium">42</span>
+                    <span className="font-medium">{comments.length}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">En attente</span>
-                    <span className="font-medium text-amber-600">5</span>
+                    <span className="font-medium text-amber-600">
+                      {
+                        comments.filter((comment) => comment.statut_id != "1")
+                          .length
+                      }
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Résolus</span>
-                    <span className="font-medium text-green-600">37</span>
+                    <span className="font-medium text-green-600">
+                      {
+                        comments.filter((comment) => comment.statut_id == "1")
+                          .length
+                      }
+                    </span>
                   </div>
                 </div>
               </div>
@@ -102,20 +114,9 @@ const CommentsManager = () => {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {/* Vous pouvez soit afficher tous les commentaires ici,
-                soit créer une vue spéciale pour la gestion */}
             <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-              <div className="text-center py-12">
-                <FaComments className="text-5xl text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Vue d'ensemble des commentaires
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Sélectionnez un véhicule pour voir ses commentaires
-                </p>
-                <button className="px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700">
-                  Voir tous les commentaires
-                </button>
+              <div className="text-center py-4">
+                <RecentComments />
               </div>
             </div>
           </div>

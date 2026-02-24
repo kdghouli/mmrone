@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useComments } from "../../stores/useCommentsStore";
 import { FaComments, FaCar, FaUser, FaCalendar } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -10,14 +10,15 @@ interface RecentCommentsProps {
 
 const RecentComments: React.FC<RecentCommentsProps> = ({
   vhlId,
-  limit = 5,
+  limit = 10,
 }) => {
-  const { comments, loading } = useComments();
+  const { comments, loading, fetchTousComments } = useComments();
 
   useEffect(() => {
-    // Ici vous auriez besoin d'une API différente pour tous les commentaires récents
-    // Pour l'exemple, on simule avec un fetch spécifique
-    // fetchRecentComments();
+    const loadData = async () => {
+      await fetchTousComments();
+    };
+    loadData();
   }, []);
 
   const recentComments = comments

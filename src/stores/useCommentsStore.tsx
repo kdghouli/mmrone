@@ -2,7 +2,6 @@
 import { create } from "zustand";
 import { API_BASE_URL } from "../utils/donnee";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useAuthStore } from "./useAuthStore";
 import axiosAuth from "../utils/axiosAuth";
 
@@ -34,35 +33,6 @@ export interface Comment {
   };
 }
 
-// Créer une instance axios configurée
-const authAxios = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-// Intercepteur pour ajouter le token et user info
-authAxios.interceptors.request.use(
-  (config) => {
-    const token = useAuthStore.getState().token;
-    const user = useAuthStore.getState().user;
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    if (user) {
-      // Ajouter l'ID utilisateur dans un header personnalisé
-      config.headers["X-User-ID"] = user.id;
-      config.headers["X-User-Email"] = user.email;
-    }
-
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
 export interface Vhl {
   id: string;
   matricule: string;
@@ -80,6 +50,7 @@ interface CommentStore {
   handAddToggle: boolean;
   // Actions
   fetchComments: (vhlId: string) => Promise<void>;
+  fetchTousComments: () => Promise<void>;
   fetchComment: (commentId: string) => Promise<Comment | null>;
   fetchStatuts: () => Promise<void>;
   addComment: (
@@ -89,7 +60,6 @@ interface CommentStore {
     active?: boolean,
     kilometrage?: string,
     user_id?: string,
-    parentId?: string,
   ) => Promise<Comment | null>;
   updateComment: (
     commentId: string,
@@ -100,6 +70,15 @@ interface CommentStore {
     vhlData: Partial<Vhl>,
   ) => Promise<Vhl | undefined>;
   deleteComment: (commentId: string) => Promise<boolean>;
+  addCommentReplay: (
+    vhl_id: string,
+    comment: string,
+    statut_id?: string,
+    active?: boolean,
+    kilometrage?: string,
+    user_id?: string,
+    parentId?: string,
+  ) => Promise<Comment | null>;
   setComments: (comments: Comment[]) => void;
   sethandAddToggle: (handAdd: boolean) => void;
   clearComments: () => void;
@@ -120,7 +99,6 @@ export const useComments = create<CommentStore>((set, get) => ({
       const response = await axiosAuth.get(`vhls/${vhlId}/comments`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
       });
 
@@ -130,12 +108,30 @@ export const useComments = create<CommentStore>((set, get) => ({
       set({ error: (error as Error).message, loading: false });
     }
   },
+
+  fetchTousComments: async () => {
+    set({ loading: true, error: null });
+    try {
+      const token = useAuthStore.getState().token;
+      const response = await axiosAuth.get(`comments`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const comments = response.data;
+      set({ comments, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+
   fetchStatuts: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_BASE_URL}statuts`);
-      if (!response.ok) throw new Error("Failed to fetch statuts");
-      const statuts = await response.json();
+      const response = await axiosAuth.get(`statuts`);
+      if (!response) throw new Error("Failed to fetch statuts");
+      const statuts = response.data;
       set({ statuts, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -144,10 +140,10 @@ export const useComments = create<CommentStore>((set, get) => ({
 
   fetchComment: async (commentId: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}comments/${commentId}`);
-      if (!response.ok) throw new Error("Failed to fetch comment");
+      const response = await axiosAuth.get(`comments/${commentId}`);
+      if (!response) throw new Error("Failed to fetch comment");
 
-      return await response.json();
+      return await response.data;
     } catch (error) {
       set({ error: (error as Error).message });
       return null;
@@ -160,51 +156,27 @@ export const useComments = create<CommentStore>((set, get) => ({
     statut_id?: string,
     active?: boolean,
     kilometrage?: string,
-    parentId?: string,
   ) => {
     set({ loading: true, error: null });
     try {
       console.log(
-        `Comment -1-: vhl: ${vhlId} comment: ${comment} stat:${statut_id} active: ${active} kilo:${kilometrage} user: ${get().user?.id} parentId:${parentId}`,
+        `Comment -1-: vhl: ${vhlId} comment: ${comment} stat:${statut_id} active: ${active} kilo:${kilometrage} user: ${get().user?.id} `,
       );
 
-      const response = await axiosAuth.post('comments',{
+      const response = await axiosAuth.post("comments", {
         vhl_id: vhlId,
         comment,
         statut_id: statut_id,
         active,
         kilometrage,
-        user_id: get().user?.id ?? 24,
-        parent_id: parentId,
+        user_id: get().user?.id,
       });
       console.log(
-        `Comment -2- : vhl: ${vhlId} comment: ${comment} stat:${statut_id} active: ${active} kilo:${kilometrage} user: ${get().user?.id} parentId:${parentId}`,
+        `Comment -2- : vhl: ${vhlId} comment: ${comment} stat:${statut_id} active: ${active} kilo:${kilometrage} user: ${get().user?.id}`,
       );
-
       if (!response) throw new Error("Failed to add comment");
-
       const newComment = await response.data;
-
       get().updateVhlComment(vhlId, { statut_id });
-
-      // Update local state
-      if (parentId) {
-        // Ajouter comme réponse
-        const updatedComments = get().comments.map((comment) => {
-          if (comment.id === parentId) {
-            return {
-              ...comment,
-              replies: [...(comment.replies || []), newComment],
-            };
-          }
-          return comment;
-        });
-        set({ comments: updatedComments });
-      } else {
-        // Ajouter comme commentaire principal
-        set({ comments: [newComment, ...get().comments] });
-      }
-
       set({ loading: false });
       return newComment;
     } catch (error) {
@@ -329,6 +301,65 @@ export const useComments = create<CommentStore>((set, get) => ({
       set({ error: errorMessage, loading: false });
       toast.error(errorMessage);
       return undefined;
+    }
+  },
+
+  addCommentReplay: async (
+    vhlId: string,
+    comment: string,
+    statut_id?: string,
+    active?: boolean,
+    kilometrage?: string,
+    parentId?: string,
+  ) => {
+    set({ loading: true, error: null });
+    try {
+      console.log(
+        `Comment -1-: vhl: ${vhlId} comment: ${comment} stat:${statut_id} active: ${active} kilo:${kilometrage} user: ${get().user?.id} parentId:${parentId}`,
+      );
+
+      const response = await axiosAuth.post("comments", {
+        vhl_id: vhlId,
+        comment,
+        statut_id: statut_id,
+        active,
+        kilometrage,
+        user_id: get().user?.id,
+        parent_id: parentId,
+      });
+      console.log(
+        `Comment -2- : vhl: ${vhlId} comment: ${comment} stat:${statut_id} active: ${active} kilo:${kilometrage} user: ${get().user?.id} parentId:${parentId}`,
+      );
+
+      if (!response) throw new Error("Failed to add comment");
+
+      const newComment = await response.data;
+
+      get().updateVhlComment(vhlId, { statut_id });
+
+      // Update local state
+      if (parentId) {
+        // Ajouter comme réponse
+        const updatedComments = get().comments.map((comment) => {
+          if (comment.id === parentId) {
+            return {
+              ...comment,
+              replies: [...(comment.replies || []), newComment],
+            };
+          }
+          return comment;
+        });
+        set({ comments: updatedComments });
+      } else {
+        // Ajouter comme commentaire principal
+        set({ comments: [newComment, ...get().comments] });
+      }
+
+      set({ loading: false });
+      return newComment;
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+      return null;
     }
   },
 

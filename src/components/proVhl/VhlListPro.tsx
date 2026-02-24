@@ -389,7 +389,7 @@ const VhlListPro: React.FC<VhlListProProps> = ({
                 key={vhl.id}
                 className={`p-2 hover:bg-blue-50 transition-colors cursor-pointer border-l-4 ${getStatutColor(vhl.statut_id)} ${
                   selectedVhl?.id === vhl.id
-                    ? "bg-blue-50 border-l-4 border-blue-500"
+                    ? "bg-blue-50 border-l-8 border-blue-500"
                     : "border-l-transparent"
                 }`}
                 onClick={() => handleRowClick(vhl)}
@@ -421,12 +421,15 @@ const VhlListPro: React.FC<VhlListProProps> = ({
                     <span className="text-gray-600">
                       <span className="font-mono font-bold">
                         {vhl.agence_nom || "-"}{" "}
+                        <div className="font-medium text-gray-500">
+                          {vhl.utilisateur_nom === "Commun" ? "" :  vhl.utilisateur_nom || "-"}
+                        </div>
                       </span>
                     </span>
                   </div>
 
                   <div className="flex gap-1">
-                    <button
+                    {/* <button
                       onClick={(e) => {
                         e.stopPropagation();
                         onEdit(vhl.id);
@@ -435,7 +438,7 @@ const VhlListPro: React.FC<VhlListProProps> = ({
                       title="Modifier"
                     >
                       <FaEdit />
-                    </button>
+                    </button> */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { API_BASE_URL } from "../utils/donnee";
+import axiosAuth from "../utils/axiosAuth";
 
 interface User {
   id: string;
@@ -56,18 +56,14 @@ const loginAPI = async (
   email: string,
   password: string,
 ): Promise<LoginResponse> => {
-  const response = await fetch(`${API_BASE_URL}login`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ email, password }),
-  });
+  const response = await axiosAuth.post(`login`, { email, password });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Identifiants incorrects");
+  if (!response) {
+    const errorData = await response;
+    throw new Error(errorData || "Identifiants incorrects");
   }
 
-  return response.json();
+  return response.data;
 };
 
 const registerAPI = async (
@@ -75,40 +71,36 @@ const registerAPI = async (
   email: string,
   password: string,
 ): Promise<RegisterResponse> => {
-  const response = await fetch(`${API_BASE_URL}register`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ name, email, password }),
-  });
+  const response = await axiosAuth.post(`register`, 
+    { name, email, password })
 
-  if (!response.ok) {
-    const errorData = await response.json();
+  if (!response) {
+    const errorData = await response;
 
     // Gestion des erreurs de validation Laravel
-    if (errorData.errors) {
-      const firstError = Object.values(errorData.errors)[0];
+    if (errorData) {
+      const firstError = Object.values(errorData)[0];
       throw new Error(
         Array.isArray(firstError) ? firstError[0] : "Erreur de validation",
       );
     }
 
-    throw new Error(errorData.message || "Erreur lors de l'inscription");
+    throw new Error(errorData|| "Erreur lors de l'inscription");
   }
 
-  return response.json();
+  return response.data;
 };
 
 const logoutAPI = async (token: string): Promise<void> => {
-  const response = await fetch(`${API_BASE_URL}logout`, {
-    method: "POST",
+  const response = await axiosAuth.post(`logout`, {
     headers: {
       ...headers,
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (!response.ok) {
-    console.error("Erreur lors de la déconnexion:", await response.text());
+  if (!response) {
+    console.error("Erreur lors de la déconnexion:", await response);
   }
 };
 

@@ -3,7 +3,6 @@ import Camions from "../pages/Camions";
 import Voitures from "../pages/Voitures";
 import Scooters from "../pages/Scooters";
 import Chariots from "../pages/Chariots";
-import Autres from "../pages/Autres";
 import App from "../App";
 import Home from "./Home";
 import AgenceManager from "../components/agences/AgenceManager";
@@ -42,9 +41,7 @@ const router = createBrowserRouter([
         path: "/chariots",
         element: <Chariots />,
         errorElement: <ErrorBoundary />,
-      },
-      { path: "/autres", element: <Autres />, errorElement: <ErrorBoundary /> },
-      {
+      },{
         path: "/agences",
         element: <AgenceManager />,
         errorElement: <ErrorBoundary />,

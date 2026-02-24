@@ -1,7 +1,6 @@
 // components/layout/Sidebar.tsx
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import {
-  FaTachometerAlt,
   FaCar,
   FaBuilding,
   FaTags,
@@ -34,13 +33,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
 
   const menuItems: MenuItem[] = [
     {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: <FaTachometerAlt />,
-      
-      path: "/*",
-    },
-    {
       id: "vehicules",
       label: "Véhicules",
       icon: <FaCar />,
@@ -49,9 +41,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
     { id: "agences", label: "Agences", icon: <FaBuilding />, path: "/agences" },
     {
       id: "categories",
-      label: "Catégories",
+      label: "Intitules",
       icon: <FaTags />,
-      path: "/categories",
+      path: "/intitules",
     },
     {
       id: "utilisateurs",

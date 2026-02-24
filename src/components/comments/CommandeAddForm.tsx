@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState } from "react";
 import { useComments } from "../../stores/useCommentsStore";
 import { useAuthStore } from "../../stores/useAuthStore";

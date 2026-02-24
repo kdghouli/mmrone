@@ -28,7 +28,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ vhlId }) => {
     statuts,
     fetchStatuts,
     fetchComments,
-    addComment,
+    addCommentReplay,
     updateComment,
     deleteComment,
   } = useComments();
@@ -54,7 +54,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ vhlId }) => {
     e.preventDefault();
     if (!replyContent.trim()) return;
 
-    await addComment(
+    await addCommentReplay(
       vhlId,
       replyContent,
       formData.statut_id,
