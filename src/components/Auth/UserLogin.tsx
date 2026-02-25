@@ -26,7 +26,6 @@ function Login() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
-    
   });
   const [errors, setErrors] = useState({
     email: "",
@@ -221,7 +220,7 @@ function Login() {
         </div>
 
         {/* Right Side - Login Form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-4 md:p-8">
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-4 md:p-6">
           <div className="w-full max-w-md">
             {/* Mobile Header */}
             <div className="lg:hidden mb-8">

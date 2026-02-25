@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { FaChevronDown, FaSignOutAlt, FaUser, FaCog } from "react-icons/fa";
+import {
+  FaChevronDown,
+  FaSignOutAlt,
+  FaUser,
+  FaCog,
+  FaSignInAlt,
+} from "react-icons/fa";
 import { useAuth } from "../../stores/useAuthStore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { STORAGE_BASE_URL } from "../../utils/donnee";
 
 interface UserAvatarProps {
@@ -14,7 +20,18 @@ function UserAvatar({ showDropdown = true }: UserAvatarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!user) {
-    return null;
+    return (
+      <Link
+        to={"/login"}
+        className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 bg-linear-to-r from-blue-600/20 to-purple-600/20 text-white border border-blue-500/30 `}
+      >
+        <span className={"text-blue-400"}>
+          <FaSignInAlt className="text-lg" />
+        </span>
+        <span className="font-medium">Connection</span>
+        
+      </Link>
+    );
   }
 
   const handleLogout = async () => {

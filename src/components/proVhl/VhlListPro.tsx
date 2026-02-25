@@ -10,7 +10,7 @@ import {
   FaFilter,
   FaCheck,
 } from "react-icons/fa6";
-import { FaSearch, FaEdit, FaTimes, FaSync } from "react-icons/fa";
+import { FaSearch, FaTimes, FaSync } from "react-icons/fa";
 import CategoryIcon from "../CategoryIcon";
 import { CiViewList } from "react-icons/ci";
 
@@ -22,7 +22,7 @@ interface VhlListProProps {
 }
 
 const VhlListPro: React.FC<VhlListProProps> = ({
-  onEdit,
+  
   onViewDetails,
   onSelectVhl,
   onSetComments,
@@ -173,7 +173,7 @@ const VhlListPro: React.FC<VhlListProProps> = ({
     } else {
       // Sinon, afficher autour de la page courante
       let start = Math.max(1, currentPage - 2);
-      let end = Math.min(totalPages, start + maxVisible - 1);
+      const end = Math.min(totalPages, start + maxVisible - 1);
 
       // Ajuster si on est près de la fin
       if (end - start + 1 < maxVisible) {
@@ -195,7 +195,7 @@ const VhlListPro: React.FC<VhlListProProps> = ({
     return { start, end };
   };
 
-  const { start, end } = getDisplayRange();
+  getDisplayRange();
 
   return (
     <div className="h-full flex flex-col">

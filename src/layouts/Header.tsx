@@ -83,7 +83,7 @@ function Header() {
                   </span>
                   <span className="font-medium">{item.label}</span>
                   {isActive(item.path) && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-linear-to-r from-blue-500 to-purple-500 rounded-full"></span>
                   )}
                 </Link>
               ))}
