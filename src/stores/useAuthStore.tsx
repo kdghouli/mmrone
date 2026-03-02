@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { API_BASE_URL } from "../utils/donnee";
@@ -120,8 +121,7 @@ const updateProfileAPI = async (
     formData.append("image", userData.image);
   }
 
-  const response = await fetch(`${API_BASE_URL}update-profile`, {
-    method: "POST",
+  const response = await axiosAuth.post(`update-profile`, {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
@@ -129,14 +129,14 @@ const updateProfileAPI = async (
     body: formData,
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
+  if (!response) {
+    const errorData = await response;
     throw new Error(
-      errorData.message || "Erreur lors de la mise à jour du profil",
+      errorData|| "Erreur lors de la mise à jour du profil",
     );
   }
 
-  const data = await response.json();
+  const data = await response.data;
   return data.user;
 };
 

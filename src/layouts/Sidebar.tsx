@@ -82,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   return (
     <div
       className={`${
-        collapsed ? "w-22" : "w-50"
+        collapsed ? "w-22" : "w-58"
       } bg-linear-to-b from-gray-900 to-gray-800 text-white transition-all duration-300 flex flex-col h-screen sticky top-0`}
     >
       {/* Logo */}

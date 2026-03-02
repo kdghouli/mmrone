@@ -20,14 +20,20 @@ import {
   FaRoad,
   FaCheckCircle,
 } from "react-icons/fa";
+import CategoryIcon from "../CategoryIcon";
 
 interface VhlDetailsProProps {
   vhlId: string;
   onEdit: () => void;
+  onComment: () => void;
   onBack: () => void;
 }
 
-const VhlDetailsPro: React.FC<VhlDetailsProProps> = ({ onEdit, onBack }) => {
+const VhlDetailsPro: React.FC<VhlDetailsProProps> = ({
+  onEdit,
+  onComment,
+  onBack,
+}) => {
   const { selectedVhl, loading } = useVhlsPro();
 
   if (loading || !selectedVhl) {
@@ -40,23 +46,25 @@ const VhlDetailsPro: React.FC<VhlDetailsProProps> = ({ onEdit, onBack }) => {
 
   const getStatutColor = (statut?: string) => {
     switch (statut?.toLowerCase()) {
-      case "disponible":
-        return "bg-emerald-100 text-emerald-800 border-emerald-200";
-      case "en mission":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "maintenance":
-        return "bg-amber-100 text-amber-800 border-amber-200";
-      case "panne":
-        return "bg-red-100 text-red-800 border-red-200";
+      case "1":
+        return "bg-green-400 border border-green-300";
+      case "2":
+        return "bg-red-400 border border-red-300 ";
+      case "3":
+        return "bg-red-300 border border-red-200";
+      case "4":
+        return "bg-orange-300  border border-orange-200";
+      case "7":
+        return "bg-gray-500 border border-gray-200";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return;
     }
   };
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="bg-linear-to-r from-blue-600 to-indigo-700 px-6 py-6">
+      <div className={`${getStatutColor(selectedVhl.statut_id)} px-6 py-6`}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex items-center gap-4">
             <button
@@ -67,8 +75,12 @@ const VhlDetailsPro: React.FC<VhlDetailsProProps> = ({ onEdit, onBack }) => {
               <FaArrowLeft />
             </button>
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <FaCar className="text-white text-2xl" />
+              <div className="p-1 bg-white/20 rounded-lg">
+                <CategoryIcon
+                  categoryName={selectedVhl.categorie_nom}
+                  size={30}
+                  className="text-white pt-1 "
+                />
               </div>
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-white">
@@ -106,7 +118,7 @@ const VhlDetailsPro: React.FC<VhlDetailsProProps> = ({ onEdit, onBack }) => {
         <div className="mb-6">
           <span
             className={`inline-flex items-center px-4 py-2 rounded-lg border ${getStatutColor(
-              selectedVhl.statut_nom,
+              selectedVhl.statut_id,
             )}`}
           >
             <FaCogs className="mr-2" />
@@ -343,9 +355,12 @@ const VhlDetailsPro: React.FC<VhlDetailsProProps> = ({ onEdit, onBack }) => {
                   Actions rapides
                 </h4>
                 <div className="space-y-2">
-                  <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center justify-center gap-2">
+                  <button
+                    onClick={onComment}
+                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                  >
                     <FaRoad />
-                    Historique des missions
+                    Historique des commentaires
                   </button>
                   <button className="w-full px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm font-medium flex items-center justify-center gap-2">
                     <FaWrench />

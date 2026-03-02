@@ -11,7 +11,7 @@ interface VhlCommentsProProps {
   onBack: () => void;
 }
 
-const VhlCommentsPro: React.FC<VhlCommentsProProps> = ({ onEdit, onBack }) => {
+const VhlCommentsPro: React.FC<VhlCommentsProProps> = ({ onEdit,onBack }) => {
   const { selectedVhl, loading } = useVhlsPro();
   const { handAddToggle, sethandAddToggle } = useComments();
 

@@ -44,6 +44,12 @@ const VhlManagerPro = () => {
     }
   };
 
+  const handleComment = () => {
+    if (selectedVhl) {
+      setView("comments");
+    }
+  };
+
   const handleBackToList = () => {
     setView("list");
   };
@@ -187,9 +193,11 @@ const VhlManagerPro = () => {
                   <VhlDetailsPro
                     vhlId={selectedVhl.id}
                     onEdit={handleEdit}
+                    onComment={handleComment}
                     onBack={handleBackToList}
                   />
                 )}
+
                 {view === "comments" && selectedVhl && (
                   <VhlCommentsPro
                     vhlId={selectedVhl.id}
