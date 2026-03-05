@@ -10,6 +10,7 @@ import {
   FaCog,
   FaChevronLeft,
   FaChevronRight,
+  FaTasks,
 } from "react-icons/fa";
 import { FaBellConcierge } from "react-icons/fa6";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -68,6 +69,12 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       label: "Paramètres",
       icon: <FaCog />,
       path: "/parametres",
+    },
+    {
+      id: "tasks",
+      label: "Tâches",
+      icon: <FaTasks />,
+      path: "/tasks",
     },
     {
       id: "pro",

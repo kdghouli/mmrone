@@ -15,6 +15,7 @@ import VhlPro from "../components/proVhl/VhlManagerPro";
 import CommentsManager from "../components/comments/CommentManager";
 import UserProfile from "../components/Auth/UserProfile";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { TaskList } from "../components/tasks/TaskList";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +42,8 @@ const router = createBrowserRouter([
         path: "/chariots",
         element: <Chariots />,
         errorElement: <ErrorBoundary />,
-      },{
+      },
+      {
         path: "/agences",
         element: <AgenceManager />,
         errorElement: <ErrorBoundary />,
@@ -76,6 +78,11 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <UserProfile />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/tasks",
+        element: <TaskList />,
         errorElement: <ErrorBoundary />,
       },
       { path: "*", element: <ErrorBoundary /> },

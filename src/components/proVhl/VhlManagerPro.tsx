@@ -14,6 +14,8 @@ const VhlManagerPro = () => {
   const [view, setView] = useState<
     "list" | "create" | "edit" | "details" | "comments"
   >("list");
+
+  
   const {
     selectedVhl,
     setSelectedVhl,
