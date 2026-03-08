@@ -14,6 +14,7 @@ const initialFormData: TaskFormData = {
   priority: "medium",
   status: "open",
   urgence: "medium",
+  
 };
 
 export const TaskForm: React.FC<TaskFormProps> = ({
@@ -30,6 +31,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
         priority: task.priority || "medium",
         status: task.status || "open",
         urgence: task.urgence || "medium",
+        
       };
     }
     return initialFormData;
@@ -45,24 +47,25 @@ export const TaskForm: React.FC<TaskFormProps> = ({
         priority: task.priority || "medium",
         status: task.status || "open",
         urgence: task.urgence || "medium",
+        
       });
       prevTaskId.current = task.id; // Update the ref after setting state
     }
   }, [task]);
 
-   const handleChange = (
-     e: React.ChangeEvent<
-       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-     >,
-   ) => {
-     const { name, value } = e.target;
-     setFormData((prev) => ({ ...prev, [name]: value }));
-   };
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-   const handleSubmit = (e: React.FormEvent) => {
-     e.preventDefault();
-     onSubmit(formData);
-   };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

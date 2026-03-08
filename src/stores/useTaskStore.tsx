@@ -45,12 +45,14 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   addTask: async (taskData) => {
     set({ loading: true, error: null });
     try {
+      console.log("Adding task:", taskData);
       const newTask = await taskService.create(taskData);
       set((state) => ({
         tasks: [...state.tasks, newTask],
         filteredTasks: [...state.tasks, newTask],
         loading: false,
       }));
+      get().fetchTasks();
     } catch (error) {
       set({ error: "Erreur lors de la création de la tâche", loading: false });
     }

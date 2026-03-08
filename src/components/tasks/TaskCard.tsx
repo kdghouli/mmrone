@@ -66,11 +66,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         >
           Priority: {task.priority}
         </span>
-        <span
+        {/* <span
           className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[task.status]}`}
         >
           Status: {task.status.replace("_", " ")}
-        </span>
+        </span> */}
         <span
           className={`px-2 py-1 rounded-full text-xs font-medium ${urgenceColors[task.urgence]}`}
         >
@@ -80,17 +80,25 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
       <div className="flex justify-between items-center text-sm text-gray-500">
         <span>Créée: {formatDate(task.created_at)}</span>
-        <select
-          value={task.status}
-          onChange={(e) =>
-            onStatusChange(task.id, e.target.value as Task["status"])
-          }
-          className="border rounded-md px-2 py-1 text-sm"
-        >
-          <option value="open">Open</option>
-          <option value="in_progress">In Progress</option>
-          <option value="closed">Closed</option>
-        </select>
+
+        <div>
+          <span
+            className={`px-2 m-1 py-1 border font-medium ${statusColors[task.status]}`}
+          >
+            Status:
+          </span>
+          <select
+            value={task.status}
+            onChange={(e) =>
+              onStatusChange(task.id, e.target.value as Task["status"])
+            }
+            className={`border rounded-md px-2 py-1 text-sm ${statusColors[task.status]}`}
+          >
+            <option value="open">Open</option>
+            <option value="in_progress">In Progress</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
       </div>
     </div>
   );

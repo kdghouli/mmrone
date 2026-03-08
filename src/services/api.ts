@@ -9,10 +9,12 @@ import { useAuthStore } from "../stores/useAuthStore";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
+  withCredentials: true, // Permet d'envoyer les cookies pour l'authentification
 });
 
 // Fonction utilitaire pour récupérer le token
@@ -33,6 +35,7 @@ api.interceptors.request.use(
     if (user) {
       config.headers["X-User-ID"] = user.id;
       config.headers["X-User-Email"] = user.email;
+      //console.log("API Request user:", token);
     }
 
     return config;
@@ -52,26 +55,30 @@ api.interceptors.response.use(
 export const taskService = {
   // Récupérer toutes les tâches
   getAll: async (): Promise<Task[]> => {
-    const response = await api.get<ApiResponse<Task[]>>("/tasks");
-    console.log("Get API Response:", response.data);
+    const response = await api.get<ApiResponse<Task[]>>("tasks");
+    //console.log("Get API Response:", response.data);
     return response.data.data;
   },
 
   // Récupérer une tâche par ID
   getById: async (id: number): Promise<Task> => {
-    const response = await api.get<ApiResponse<Task>>(`/tasks/${id}`);
+    const response = await api.get<ApiResponse<Task>>(`tasks/${id}`);
     return response.data.data;
   },
 
   // Créer une nouvelle tâche
   create: async (task: TaskFormData): Promise<Task> => {
-    const response = await api.post<ApiResponse<Task>>("/tasks", task);
+    //console.log("Create API Response task:", task);
+    const response = await api.post<ApiResponse<Task>>("tasks", {
+      ...task,
+      user_id: useAuthStore.getState().user?.id,
+    });
     return response.data.data;
   },
 
   // Mettre à jour une tâche
   update: async (id: number, task: Partial<TaskFormData>): Promise<Task> => {
-    const response = await api.put<ApiResponse<Task>>(`/tasks/${id}`, task);
+    const response = await api.put<ApiResponse<Task>>(`tasks/${id}`, task);
     return response.data.data;
   },
 
@@ -82,7 +89,7 @@ export const taskService = {
 
   // Mettre à jour le statut
   updateStatus: async (id: number, status: Task["status"]): Promise<Task> => {
-    const response = await api.patch<ApiResponse<Task>>(`/tasks/${id}/status`, {
+    const response = await api.patch<ApiResponse<Task>>(`tasks/${id}/status`, {
       status,
     });
     return response.data.data;

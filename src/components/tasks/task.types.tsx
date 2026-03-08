@@ -11,7 +11,7 @@ export interface Task {
   urgence: Urgence;
   created_at: string;
   updated_at: string;
-  user_id: number;
+  user_id: string;
   deleted_at: string | null;
 }
 
@@ -21,6 +21,7 @@ export interface TaskFormData {
   priority: Priority;
   status: Status;
   urgence: Urgence;
+  user_id?: string;
 }
 
 export interface TaskFilters {
