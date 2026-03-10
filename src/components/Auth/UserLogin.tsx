@@ -107,7 +107,7 @@ function Login() {
       // Rediriger vers le tableau de bord
       setTimeout(() => {
         navigate("/");
-      }, 1000);
+      }, 3000);
     } catch (error: any) {
       // Gérer les erreurs spécifiques de l'API
       const errorMessage = error.message || "Erreur de connexion";
@@ -182,7 +182,7 @@ function Login() {
           </div>
 
           {/* Features List */}
-          <div className="relative z-10 space-y-4">
+          <div className="relative z-10 space-y-3">
             {[
               {
                 icon: "🚚",
@@ -465,19 +465,19 @@ function Login() {
 
               {/* Sign Up Link */}
               <div className="mt-8 text-center">
-                <p className="text-gray-600">
-                  Pas encore de compte ?{" "}
+                <p className="text-gray-500">
+                  Pas encore de compte ?{"  "}
                   <Link
                     to="/register"
                     className="font-medium text-blue-600 hover:text-blue-700 transition-colors hover:underline"
                   >
-                    S'inscrire gratuitement
+                    S'inscrire
                   </Link>
                 </p>
               </div>
 
               {/* Security Info */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="flex items-center justify-center text-sm text-gray-500">
                   <FaShieldAlt className="mr-2 text-green-500" />
                   <span>Connexion sécurisée • SSL encrypté</span>

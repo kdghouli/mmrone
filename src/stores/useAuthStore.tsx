@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { API_BASE_URL } from "../utils/donnee";
 import axiosAuth from "../utils/axiosAuth";
+import { Navigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -62,8 +63,8 @@ const loginAPI = async (
   if (!response) {
     const errorData = await response;
     throw new Error(errorData || "Identifiants incorrects");
+    
   }
-
   return response.data;
 };
 

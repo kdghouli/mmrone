@@ -29,7 +29,6 @@ function UserAvatar({ showDropdown = true }: UserAvatarProps) {
           <FaSignInAlt className="text-lg" />
         </span>
         <span className="font-medium">Connection</span>
-        
       </Link>
     );
   }
