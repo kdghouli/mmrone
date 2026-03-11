@@ -15,11 +15,11 @@ import {
 } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 function Register() {
   const navigate = useNavigate();
-  const { register, isLoading, error, clearError } = useAuth();
+  const { register, isLoading, error, clearError } = useAuthStore();
 
   const [formData, setFormData] = useState({
     name: "",

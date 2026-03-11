@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { API_BASE_URL } from "../utils/donnee";
 import axiosAuth from "../utils/axiosAuth";
-import { Navigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -63,7 +62,6 @@ const loginAPI = async (
   if (!response) {
     const errorData = await response;
     throw new Error(errorData || "Identifiants incorrects");
-    
   }
   return response.data;
 };
@@ -73,8 +71,7 @@ const registerAPI = async (
   email: string,
   password: string,
 ): Promise<RegisterResponse> => {
-  const response = await axiosAuth.post(`register`, 
-    { name, email, password })
+  const response = await axiosAuth.post(`register`, { name, email, password });
 
   if (!response) {
     const errorData = await response;
@@ -87,7 +84,7 @@ const registerAPI = async (
       );
     }
 
-    throw new Error(errorData|| "Erreur lors de l'inscription");
+    throw new Error(errorData || "Erreur lors de l'inscription");
   }
 
   return response.data;
@@ -132,9 +129,7 @@ const updateProfileAPI = async (
 
   if (!response) {
     const errorData = await response;
-    throw new Error(
-      errorData|| "Erreur lors de la mise à jour du profil",
-    );
+    throw new Error(errorData || "Erreur lors de la mise à jour du profil");
   }
 
   const data = await response.data;
@@ -344,7 +339,7 @@ export const authFetch = async (url: string, options: RequestInit = {}) => {
 
 // Hook pour vérifier l'authentification dans les composants
 export const useAuthCheck = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuthStore();
 
   return {
     isAuthenticated,

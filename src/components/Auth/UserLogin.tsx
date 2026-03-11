@@ -17,11 +17,11 @@ import {
 } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 function Login() {
   const navigate = useNavigate();
-  const { login, isLoading, error, clearError } = useAuth();
+  const { login, isLoading, error, clearError } = useAuthStore();
 
   const [credentials, setCredentials] = useState({
     email: "",

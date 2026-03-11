@@ -9,13 +9,17 @@ import VhlDetailsPro from "./VhlDetailsPro";
 import { FaPlus, FaCar, FaCogs, FaChartBar } from "react-icons/fa";
 import VhlCommentsPro from "./VhlCommentsPro";
 import UserAvatar from "../Auth/UserAvatar";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 const VhlManagerPro = () => {
+  const location = useLocation();
+  const { isAuthenticated } = useAuthStore();
+
   const [view, setView] = useState<
     "list" | "create" | "edit" | "details" | "comments"
   >("list");
 
-  
   const {
     selectedVhl,
     setSelectedVhl,
@@ -25,15 +29,26 @@ const VhlManagerPro = () => {
     loading,
   } = useVhlsPro();
 
+  // Tous les hooks useEffect doivent être appelés avant le retour conditionnel
   useEffect(() => {
-    const loadData = async () => {
-      // Charger les données de référence
-      await fetchReferenceData();
-      // Charger les véhicules
-      await fetchAllVhls();
-    };
-    loadData();
+    // Ne charger les données que si l'utilisateur est authentifié
+    if (isAuthenticated) {
+      console.log("c quoi" + isAuthenticated);
+      const loadData = async () => {
+        await fetchReferenceData();
+        await fetchAllVhls();
+      };
+      loadData();
+    }
   }, [fetchAllVhls, fetchReferenceData]);
+
+  // Redirection après tous les hooks
+  if (!isAuthenticated) {
+    console.log(
+      "Utilisateur non authentifié, redirection vers la page de connexion.",
+    );
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   const handleCreateSuccess = (newVhl: any) => {
     setView("details");
@@ -88,7 +103,7 @@ const VhlManagerPro = () => {
   };
 
   return (
-    <div className=" bg-linear-to-br from-gray-50 to-blue-200 max-w-full min-h-screen">
+    <div className="bg-linear-to-br from-gray-50 to-blue-200 max-w-full min-h-screen">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="container mx-auto px-6 py-2">
@@ -132,7 +147,7 @@ const VhlManagerPro = () => {
 
       {/* Main Content - Layout côte à côte */}
       <div className="px-4 py-2 container ">
-        <div className=" flex flex-col lg:flex-row  gap-3">
+        <div className="flex flex-col lg:flex-row gap-3">
           {/* Colonne gauche - Liste des véhicules */}
           <div className="lg:w-3/7">
             <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden h-full">

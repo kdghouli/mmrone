@@ -6,7 +6,7 @@ import {
   FaCog,
   FaSignInAlt,
 } from "react-icons/fa";
-import { useAuth } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
 import { STORAGE_BASE_URL } from "../../utils/donnee";
 
@@ -15,7 +15,7 @@ interface UserAvatarProps {
 }
 
 function UserAvatar({ showDropdown = true }: UserAvatarProps) {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
