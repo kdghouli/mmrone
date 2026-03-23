@@ -433,8 +433,8 @@ function Register() {
                   focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-300
                   ${
                     isLoading
-                      ? "bg-gradient-to-r from-green-400 to-emerald-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-lg transform hover:-translate-y-0.5"
+                      ? "bg-linear-to-r from-green-400 to-emerald-400 cursor-not-allowed"
+                      : "bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-lg transform hover:-translate-y-0.5"
                   }
                 `}
               >
