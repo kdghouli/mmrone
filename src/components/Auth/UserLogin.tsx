@@ -324,6 +324,8 @@ function Login() {
                       name="email"
                       value={credentials.email}
                       onChange={handleChange}
+                      required
+                      autoComplete="email"
                       className={`
                         w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200
                         ${
@@ -380,6 +382,7 @@ function Login() {
                       name="password"
                       value={credentials.password}
                       onChange={handleChange}
+                      autoComplete="current-password"
                       className={`
                         w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200
                         ${

@@ -61,6 +61,7 @@ const loginAPI = async (
 
   if (!response) {
     const errorData = await response;
+    console.error("Erreur lors de la connexion auth:", errorData);
     throw new Error(errorData || "Identifiants incorrects");
   }
   return response.data;
