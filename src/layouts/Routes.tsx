@@ -16,6 +16,7 @@ import CommentsManager from "../components/comments/CommentManager";
 import UserProfile from "../components/Auth/UserProfile";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { TaskList } from "../components/tasks/TaskList";
+import { DailyCheckDashboard } from "../components/dailyCheck/DailyCheckDashboard";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,12 @@ const router = createBrowserRouter([
         element: <TaskList />,
         errorElement: <ErrorBoundary />,
       },
+      {
+        path: "/daily-check",
+        element: <DailyCheckDashboard />,
+        errorElement: <ErrorBoundary />,
+      },
+
       { path: "*", element: <ErrorBoundary /> },
     ],
   },
