@@ -1,63 +1,74 @@
 // components/DailyCheckStats.tsx
-import React from 'react';
-import { useDailyCheckStore } from './dailyCheckStore';
+import React from "react";
+import { useDailyCheckStore } from "./dailyCheckStore";
+import { MdForklift } from "react-icons/md";
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   ClockIcon,
-  TruckIcon,
-} from '@heroicons/react/24/outline';
+} from "@heroicons/react/24/outline";
 
 export const DailyCheckStats: React.FC = () => {
-  const {  chariots, getTodayChecks } = useDailyCheckStore();
+  const { chariots, getTodayChecks } = useDailyCheckStore();
 
   const todayChecks = getTodayChecks();
   const completedChecksToday = todayChecks.length;
   const totalChariots = chariots.length;
-  
-  const todayIssues = todayChecks.filter(check => 
-    !check.frein || !check.pneus || !check.eclairage || 
-    !check.extincteur || !check.batterie || check.fuite || 
-    !check.avertisseur || !check.ceinture || !check.retroviseur
+
+  const todayIssues = todayChecks.filter(
+    (check) =>
+      !check.frein ||
+      !check.pneus ||
+      !check.eclairage ||
+      !check.extincteur ||
+      !check.batterie ||
+      check.fuite ||
+      !check.avertisseur ||
+      !check.ceinture ||
+      !check.retroviseur,
   ).length;
 
-  const averageKilometrage = todayChecks.length > 0
-    ? Math.round(todayChecks.reduce((sum, check) => sum + check.kilometrage, 0) / todayChecks.length)
-    : 0;
+  const averageKilometrage =
+    todayChecks.length > 0
+      ? Math.round(
+          todayChecks.reduce((sum, check) => sum + check.kilometrage, 0) /
+            todayChecks.length,
+        )
+      : 0;
 
   const stats = [
     {
-      title: 'Contrôles aujourd\'hui',
+      title: "Contrôles aujourd'hui",
       value: `${completedChecksToday}/${totalChariots}`,
-      icon: TruckIcon,
-      color: 'blue',
+      icon: MdForklift,
+      color: "blue",
     },
     {
-      title: 'Problèmes détectés',
+      title: "Problèmes détectés",
       value: todayIssues,
       icon: ExclamationTriangleIcon,
-      color: 'yellow',
+      color: "yellow",
     },
     {
-      title: 'Conformité',
+      title: "Conformité",
       value: `${completedChecksToday - todayIssues}/${completedChecksToday}`,
       icon: CheckCircleIcon,
-      color: 'green',
+      color: "green",
     },
     {
-      title: 'Km moyen',
+      title: "Km moyen",
       value: `${averageKilometrage} km`,
       icon: ClockIcon,
-      color: 'purple',
+      color: "purple",
     },
   ];
 
   const getColorClasses = (color: string) => {
     const classes = {
-      blue: 'bg-blue-50 text-blue-700',
-      yellow: 'bg-yellow-50 text-yellow-700',
-      green: 'bg-green-50 text-green-700',
-      purple: 'bg-purple-50 text-purple-700',
+      blue: "bg-blue-50 text-blue-700",
+      yellow: "bg-yellow-50 text-yellow-700",
+      green: "bg-green-50 text-green-700",
+      purple: "bg-purple-50 text-purple-700",
     };
     return classes[color as keyof typeof classes] || classes.blue;
   };
@@ -68,11 +79,13 @@ export const DailyCheckStats: React.FC = () => {
         <div key={index} className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className={`rounded-lg p-3 ${getColorClasses(stat.color)}`}>
-              <stat.icon className="w-6 h-6" />
+              <stat.icon className="w-7 h-7" />
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-              <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
+              <p className="text-2xl font-semibold text-gray-900">
+                {stat.value}
+              </p>
             </div>
           </div>
         </div>

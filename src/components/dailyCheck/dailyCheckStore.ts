@@ -2,6 +2,8 @@
 // store/dailyCheckStore.ts
 import { create } from "zustand";
 import type { DailyCheck, Chariot, DailyCheckFormData } from "./type";
+import axiosAuth from "../../utils/axiosAuth";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 interface DailyCheckStore {
   // State
@@ -38,6 +40,8 @@ interface DailyCheckStore {
   getChecksByChariot: (chariotId: string) => DailyCheck[];
   getTodayChecks: () => DailyCheck[];
 }
+
+const user = useAuthStore.getState().user;
 
 export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   // Initial State
@@ -97,33 +101,12 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   fetchDailyChecks: async () => {
     set({ isLoading: true, error: null });
     try {
-      // Simuler un appel API
-      // const response = await fetch('/api/dailychecks');
-      // const data = await response.json();
+      const response = await axiosAuth.get("/dailychecks");
 
-      // Données de test
-      const mockData: DailyCheck[] = [
-        {
-          id: "1",
-          dateControle: new Date().toISOString(),
-          frein: true,
-          pneus: true,
-          eclairage: true,
-          extincteur: true,
-          batterie: false,
-          fuite: false,
-          avertisseur: true,
-          ceinture: true,
-          retroviseur: true,
-          observation: "Batterie à recharger",
-          kilometrage: 1234,
-          vhl_id: "1",
-          user_id: "user1",
-          utilisateur_id: "user1",
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ];
+      const mockData: DailyCheck[] = response.data;
+      {
+        console.log("Checks filtrés :", mockData);
+      }
 
       set({ dailyChecks: mockData });
     } catch (error) {
@@ -136,13 +119,9 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   fetchChariots: async () => {
     set({ isLoading: true, error: null });
     try {
-      // Données de test pour 15 chariots
-      const mockChariots: Chariot[] = Array.from({ length: 15 }, (_, i) => ({
-        id: `${i + 1}`,
-        nom: `Chariot ${i + 1}`,
-        type: i % 3 === 0 ? "Électrique" : i % 3 === 1 ? "Diesel" : "GPL",
-        statut: i % 5 === 0 ? "maintenance" : "actif",
-      }));
+      const response = await axiosAuth.get("/categ/vhls/4");
+
+      const mockChariots: Chariot[] = response.data;
 
       set({ chariots: mockChariots });
     } catch (error) {
@@ -155,20 +134,14 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   createDailyCheck: async (data) => {
     set({ isLoading: true, error: null });
     try {
-      // const response = await fetch('/api/dailychecks', {
-      //   method: 'POST',
-      //   body: JSON.stringify(data),
-      // });
-      // const newCheck = await response.json();
-
-      const newCheck: DailyCheck = {
-        id: Date.now().toString(),
+      const payload = {
         ...data,
-        user_id: "current-user",
-        utilisateur_id: "current-user",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      } as DailyCheck;
+        user_id: user?.id,
+        utilisateur_id: "2",
+      };
+      console.log("Payload envoyé :", payload);
+
+      const newCheck: DailyCheck = await axiosAuth.post("dailychecks", payload);
 
       set((state) => ({
         dailyChecks: [...state.dailyChecks, newCheck],
@@ -210,9 +183,7 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   deleteDailyCheck: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      // await fetch(`/api/dailychecks/${id}`, {
-      //   method: 'DELETE',
-      // });
+      await axiosAuth.delete(`/dailychecks/${id}`);
 
       set((state) => ({
         dailyChecks: state.dailyChecks.filter((check) => check.id !== id),

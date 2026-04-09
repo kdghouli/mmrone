@@ -19,13 +19,15 @@ export interface DailyCheck {
   utilisateur_id: string;
   created_at: Date | string;
   updated_at: Date | string;
+
 }
 
 export interface Chariot {
   id: string;
-  nom: string;
-  type: string;
-  statut: 'actif' | 'maintenance' | 'inactif';
+  matricule: string;
+  marque: string;
+  agence: string;
+  statut: "actif" | "maintenance" | "inactif";
 }
 
 export interface DailyCheckFormData {

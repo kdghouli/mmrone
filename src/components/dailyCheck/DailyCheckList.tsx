@@ -35,7 +35,7 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
 
   const getChariotName = (chariotId: string) => {
     const chariot = chariots.find((c) => c.id === chariotId);
-    return chariot ? chariot.nom : "Inconnu";
+    return chariot ? chariot.matricule : "Inconnu";
   };
 
   const StatutIcon = ({ value }: { value: boolean }) => {
@@ -94,6 +94,7 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
+          
           {filteredChecks.map((check) => (
             <tr key={check.id} className="hover:bg-gray-50">
               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">

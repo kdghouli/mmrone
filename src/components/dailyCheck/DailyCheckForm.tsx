@@ -134,7 +134,7 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
               <option value="">Sélectionner un chariot</option>
               {chariots.map((chariot) => (
                 <option key={chariot.id} value={chariot.id}>
-                  {chariot.nom} - {chariot.type}
+                  {chariot.matricule} - {chariot.marque}
                 </option>
               ))}
             </select>
