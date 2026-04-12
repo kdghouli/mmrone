@@ -1,6 +1,7 @@
 // components/DailyCheckList.tsx
 import React, { useEffect } from "react";
 import { useDailyCheckStore } from "./dailyCheckStore";
+import { BiDotsHorizontal } from "react-icons/bi";
 import {
   CheckCircleIcon,
   XCircleIcon,
@@ -34,7 +35,7 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
   const filteredChecks = getFilteredChecks();
 
   const getChariotName = (chariotId: string) => {
-    const chariot = chariots.find((c) => c.id === chariotId);
+    const chariot = chariots.find((c) => c.id == chariotId);
     return chariot ? chariot.matricule : "Inconnu";
   };
 
@@ -67,23 +68,32 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Date
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Chariot
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
               Frein
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
               Pneus
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
               Éclairage
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
               Batterie
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              Fuites
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              Avertisseurs
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+              Utilisateur
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Kilométrage
@@ -94,13 +104,12 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          
           {filteredChecks.map((check) => (
             <tr key={check.id} className="hover:bg-gray-50">
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
                 {new Date(check.dateControle).toLocaleDateString("fr-FR")}
               </td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 font-bold">
                 {getChariotName(check.vhl_id)}
               </td>
               <td className="px-4 py-3 whitespace-nowrap">
@@ -114,6 +123,17 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
               </td>
               <td className="px-4 py-3 whitespace-nowrap">
                 <StatutIcon value={check.batterie} />
+              </td>
+              <td className="px-4 py-3 whitespace-nowrap">
+                <StatutIcon value={check.fuite} />
+              </td>
+              <td className="px-4 py-3 whitespace-nowrap">
+                <StatutIcon value={check.avertisseur} />
+              </td>
+              <td className="px-4 py-2 whitespace-nowrap font-light text-sm text-gray-900">
+                {check.utilisateur && typeof check.utilisateur === "object"
+                  ? (check.utilisateur as any).nom
+                  : check.utilisateur || "N/A"}
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                 {check.kilometrage} km
@@ -130,6 +150,9 @@ export const DailyCheckList: React.FC<DailyCheckListProps> = ({
                   className="text-red-600 hover:text-red-900"
                 >
                   <TrashIcon className="w-5 h-5" />
+                </button>
+                <button  className="text-gray-600 hover:text-red-900 ml-2">
+                  <BiDotsHorizontal className="w-6 h-5" />
                 </button>
               </td>
             </tr>

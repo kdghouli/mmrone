@@ -15,11 +15,13 @@ export interface DailyCheck {
   observation: string;
   kilometrage: number;
   vhl_id: string;
-  user_id: string;
+  vhl: Chariot | string;
+  user_id:  string;
+  user: User | string;
   utilisateur_id: string;
+  utilisateur: Utilisateur | string;
   created_at: Date | string;
   updated_at: Date | string;
-
 }
 
 export interface Chariot {
@@ -44,4 +46,21 @@ export interface DailyCheckFormData {
   observation: string;
   kilometrage: number;
   vhl_id: string;
+  utilisateur_id: string;
+}
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  image: null;
+}
+
+export interface Utilisateur {
+  id: string;
+  nom: string;
+  poste: string;
+  tel: string;
+  mail: string;
+  service_id: number;
+  agence_id: number;
 }

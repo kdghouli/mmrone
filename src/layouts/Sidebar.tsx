@@ -65,10 +65,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       path: "/comments",
     },
     {
-      id: "parametres",
-      label: "Paramètres",
+      id: "Contrôle chariots",
+      label: "Contrôle chariots",
       icon: <FaCog />,
-      path: "/parametres",
+      path: "/daily-check",
     },
     {
       id: "tasks",
@@ -81,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       label: "Pro",
       icon: <FaBellConcierge />,
       path: "/pro",
-    }
+    },
   ];
 
   const isActive = (path: string) => location.pathname.startsWith(path);
@@ -181,7 +181,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         }
       `}
       </style>
-      
     </div>
   );
 };

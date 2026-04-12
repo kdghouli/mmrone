@@ -16,10 +16,12 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
 }) => {
   const {
     chariots,
+    utilisateurs,
     getCheckById,
     createDailyCheck,
     updateDailyCheck,
     fetchChariots,
+    fetchUtilisateurs,
     isLoading,
   } = useDailyCheckStore();
 
@@ -37,10 +39,12 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
     observation: "",
     kilometrage: 0,
     vhl_id: "",
+    utilisateur_id: "",
   });
 
   useEffect(() => {
     fetchChariots();
+    fetchUtilisateurs();
     if (checkId) {
       const check = getCheckById(checkId);
       if (check) {
@@ -60,6 +64,7 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
           observation: check.observation,
           kilometrage: check.kilometrage,
           vhl_id: check.vhl_id,
+          utilisateur_id: check.utilisateur_id,
         });
       }
     }
@@ -108,13 +113,13 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
       onSubmit={handleSubmit}
       className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto"
     >
-      <h2 className="text-2xl font-bold mb-6 text-gray-900">
+      <h2 className="text-2xl font-bold mb-6 text-gray-900 text-center">
         {checkId ? "Modifier le contrôle" : "Nouveau contrôle quotidien"}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Section informations générales */}
-        <div className="space-y-4">
+        <div className="space-y-4 border p-4 rounded-lg border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-3">
             Informations générales
           </h3>
@@ -154,6 +159,26 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
               className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             />
           </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Utilisateur <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={formData.utilisateur_id}
+              onChange={(e) =>
+                setFormData({ ...formData, utilisateur_id: e.target.value })
+              }
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            >
+              <option value="">Sélectionner un utilisateur</option>
+              {utilisateurs.map((utilisateur) => (
+                <option key={utilisateur.id} value={utilisateur.id}>
+                  {utilisateur.nom}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -191,7 +216,7 @@ export const DailyCheckForm: React.FC<DailyCheckFormProps> = ({
         </div>
 
         {/* Section vérifications */}
-        <div className="space-y-4">
+        <div className="space-y-4 border p-4 rounded-lg border-gray-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-3">
             Points de contrôle
           </h3>

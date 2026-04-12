@@ -1,14 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // store/dailyCheckStore.ts
 import { create } from "zustand";
-import type { DailyCheck, Chariot, DailyCheckFormData } from "./type";
+import type {
+  DailyCheck,
+  Chariot,
+  DailyCheckFormData,
+  Utilisateur,
+} from "./type";
 import axiosAuth from "../../utils/axiosAuth";
 import { useAuthStore } from "../../stores/useAuthStore";
+import axios from "axios";
 
 interface DailyCheckStore {
   // State
   dailyChecks: DailyCheck[];
   chariots: Chariot[];
+  utilisateurs: Utilisateur[];
   selectedCheck: DailyCheck | null;
   isLoading: boolean;
   error: string | null;
@@ -27,6 +34,7 @@ interface DailyCheckStore {
   // CRUD Operations
   fetchDailyChecks: () => Promise<void>;
   fetchChariots: () => Promise<void>;
+  fetchUtilisateurs: () => Promise<void>;
   createDailyCheck: (data: DailyCheckFormData) => Promise<void>;
   updateDailyCheck: (
     id: string,
@@ -48,6 +56,7 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   dailyChecks: [],
   chariots: [],
   selectedCheck: null,
+  utilisateurs: [],
   isLoading: false,
   error: null,
   filterDate: new Date(),
@@ -75,7 +84,7 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
       }
 
       if (filterChariotId) {
-        matches = matches && check.vhl_id === filterChariotId;
+        matches = matches && check.vhl_id == filterChariotId;
       }
 
       return matches;
@@ -87,7 +96,7 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
   },
 
   getChecksByChariot: (chariotId) => {
-    return get().dailyChecks.filter((check) => check.vhl_id === chariotId);
+    return get().dailyChecks.filter((check) => check.vhl_id == chariotId);
   },
 
   getTodayChecks: () => {
@@ -131,13 +140,41 @@ export const useDailyCheckStore = create<DailyCheckStore>((set, get) => ({
     }
   },
 
+ fetchUtilisateurs: async () => {
+  set({ isLoading: true, error: null });
+
+  try {
+    const response = await axiosAuth.get<Utilisateur[]>("/utilisateurs");
+
+    const utilisateursFiltres = response.data.filter((utilisateur) =>
+      utilisateur.poste?.toLowerCase().includes("chariot")
+    );
+
+    if (utilisateursFiltres.length === 0) {
+      console.warn("Aucun utilisateur avec le poste contenant 'chariot'");
+    }
+
+    set({ utilisateurs: utilisateursFiltres });
+  } catch (error) {
+    const message =
+      axios.isAxiosError(error) && error.response?.data?.message
+        ? error.response.data.message
+        : "Erreur réseau ou serveur";
+
+    console.error("Erreur fetchUtilisateurs :", error);
+    set({ error: message });
+  } finally {
+    set({ isLoading: false });
+  }
+},
+
   createDailyCheck: async (data) => {
     set({ isLoading: true, error: null });
     try {
       const payload = {
         ...data,
         user_id: user?.id,
-        utilisateur_id: "2",
+        
       };
       console.log("Payload envoyé :", payload);
 
